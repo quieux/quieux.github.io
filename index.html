@@ -5,12 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quieux Linux</title>
   <style>
+    @font-face {
+      font-family: 'Dogica';
+      src: url('dogica.ttf') format('truetype');
+    }
+
     body {
       background-color: #000000;
       color: #00ff00;
-      font-family: "Lucida Console", monospace;
+      font-family: "Dogica", "Lucida Console", monospace;
       margin: 0;
       padding: 0;
+      font-size: 12px; /* Adicionada a propriedade font-size para diminuir o tamanho da fonte */
     }
     
     header {
@@ -23,6 +29,36 @@
       color: #00ff00;
       font-size: 32px;
       margin: 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    nav ul li a {
+      color: #00ff00;
+      text-decoration: none;
+    }
+
+    .sub-menu {
+      display: none;
+    }
+
+    .sub-menu.visible {
+      display: block;
     }
     
     main {
@@ -49,31 +85,44 @@
       text-align: center;
     }
   </style>
+  <script>
+    function toggleSubMenu() {
+      var subMenu = document.getElementById('sub-menu');
+      subMenu.classList.toggle('visible');
+    }
+  </script>
 </head>
 <body>
   <header>
-    <h1>Quieux Linux</h1>
+    <img src="logo.png" alt="Logo" class="logo">
+    <h1>Quieux Linux</h1><br>
+    <nav>
+      <ul>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="doc/">Documentação</a></li>
+        <li><a href="changelog.html">ChangeLog</a></li>
+        <li><a href="javascript:void(0);" onclick="toggleSubMenu();">Language</a>
+          <ul id="sub-menu" class="sub-menu">
+            <li><a href="es.html">Español</a></li>
+            <li><a href="en.html">English</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
   </header>
 
   <main>
-    <h2>Sobre o Quieux</h2>
+    <h2 id="sobre">Sobre o Quieux</h2>
     <p>
-      Quieux Linux é uma distribuição Linux poderosa e fácil de usar, projetada para todas as suas necessidades de computação. Oferece uma experiência de computação perfeita e eficiente, seja você um iniciante ou um usuário avançado.
+      Quieux é uma meta distribuição Linux simples.<br> Oferece uma experiência de computação didática e eficiente, para usuários iniciantes que querem aprender mais.
     </p>
 
-    <h2>Recursos</h2>
+    <h2>Requisitos</h2>
     <ul>
-      <li>Rápido e leve</li>
-      <li>Seguro e confiável</li>
-      <li>Excelente compatibilidade de hardware</li>
-    </ul>
-
-    <h2>Requisitos do Sistema</h2>
-    <ul>
-      <li>Processador: 1 GHz ou mais rápido</li>
-      <li>Memória: 2 GB de RAM</li>
-      <li>Armazenamento: 20 GB de espaço disponível</li>
-      <li>Rede: Conexão com a Internet (opcional)</li>
+      <li>Processador: 1 GHz ou mais rápido</li><br>
+      <li>Memória: 1 GB de RAM</li><br>
+      <li>Armazenamento: 10 GB de espaço disponível</li><br>
+      <li>Rede: Conexão com a Internet (opcional)</li><br>
     </ul>
 
     <h2>Download</h2>
@@ -83,7 +132,7 @@
 
     <h2>Suporte</h2>
     <p>
-      Para qualquer assistência ou dúvida, visite nossa página de suporte ou participe de nossos fóruns comunitários.
+      Em breve.
     </p>
   </main>
 
@@ -91,3 +140,4 @@
     &copy; 2023 Quieux Linux.
   </footer>
 </body>
+</html>
