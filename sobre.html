@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quieux Linux - Sobre</title>
+  <style>
+    @font-face {
+      font-family: 'Dogica';
+      src: url('dogica.ttf') format('truetype');
+    }
+
+    body {
+      background-color: #000000;
+      color: #00ff00;
+      font-family: "Dogica", "Lucida Console", monospace;
+      margin: 0;
+      padding: 0;
+      font-size: 12px; /* Adicionada a propriedade font-size para diminuir o tamanho da fonte */
+    }
+    
+    header {
+      background-color: #000000;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #00ff00;
+      font-size: 32px;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    nav ul li a {
+      color: #00ff00;
+      text-decoration: none;
+    }
+
+    .sub-menu {
+      display: none;
+    }
+
+    .sub-menu.visible {
+      display: block;
+    }
+    
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    
+    h2 {
+      color: #00ff00;
+      font-size: 24px;
+      padding: 10px;
+      border-bottom: 2px solid #aa00ff;
+    }
+    
+    p {
+      line-height: 1.5;
+    }
+    
+    footer {
+      background-color: #000000;
+      color: #00ff00;
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+  <script>
+    function toggleSubMenu() {
+      var subMenu = document.getElementById('sub-menu');
+      subMenu.classList.toggle('visible');
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo" class="logo">
+    <h1>Quieux Linux</h1><br>
+    <nav>
+      <ul>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="repo.html">Repositório</a></li>
+        <li><a href="doc/">Documentação</a></li>
+        <li><a href="changelog.html">ChangeLog</a></li>
+        <li><a href="javascript:void(0);" onclick="toggleSubMenu();">Language</a>
+          <ul id="sub-menu" class="sub-menu">
+            <li><a href="es/">Español</a></li>
+            <li><a href="en/">English</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2 id="sobre">Sobre</h2>
+    <p>
+      Quando criei o gerenciador de pacotes QUEL, eu não tinha em mente criar uma distribuição. Utilizei-o no Arch Linux e funcionava muito bem. Caso eu tentasse utilizar um pacote QUEL em uma distro baseada no Debian, ele também funcionava bem na maioria das vezes. Isso porque, algumas vezes, eu tinha problemas de compatibilidade com as bibliotecas que cada distribuição utilizava. Então, surgiu a ideia de usar uma distribuição padrão para criar meus pacotes QUEL, pois eu teria a garantia de que os pacotes funcionariam e os únicos problemas seriam as incompatibilidades de hardware, que são mais fáceis de contornar.
+    </p>
+    <p>
+      A partir disso, procurei uma distro BLFS sem muita coisa instalada por padrão e encontrei a <a href="https://sourceforge.net/projects/lfs-exton/" style="color: #00ff00; text-decoration: none;">Exton BLFS</a>. Usei-a como base e incluí o QUEL como seu gerenciador de pacotes. Assim surgiu o Quieux Linux, que não possui uma filosofia definida. O conceito é: 
+      <em>Se está funcionando, mantenha. Se não está funcionando, corrija. Se não existe, crie.</em>
+    </p>
+    <p>
+      Você não precisará baixar uma ISO nova depois de um tempo. Assim como no Arch, é possível atualizar o sistema sem reinstalá-lo completamente. Mas, ao contrário do Arch, você não terá atualizações constantes (a menos que você mesmo as faça). A estrutura e versão dos componentes serão mantidas até que isso comprometa a criação de novos pacotes ou tenha impacto de segurança para os usuários. Quando chegar o momento, a ISO para download no site será alterada, mas todos os usuários que já o tiverem instalado poderão atualizar usando o QUEL.
+    </p>
+    <p>
+      O QUEL também possui um conceito interessante de repositório padrão e repositório público. No repositório padrão, você encontrará pacotes de programas conhecidos, como o Firefox, que eu mesmo compilei. Mas o QUEL também oferece um repositório público utilizando o comando <code>quel -pub</code>. Nesse repositório público, serão aceitos pacotes dos mais variados tipos, criados pelos usuários, inclusive programas criados por eles mesmos. Desde que os pacotes não comprometam a segurança dos usuários, os pacotes públicos não terão qualquer restrição de criação. Por isso, deve-se ter cuidado ao utilizar qualquer um deles.
+    </p>
+  </main>
+
+  <footer>
+    &copy; 2023 Quieux Linux.
+  </footer>
+</body>
+</html>
