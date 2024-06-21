@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quieux Linux</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #00ff00;
+      font-family: "Lucida Console", monospace;
+      margin: 0;
+      padding: 0;
+      font-size: 12px;
+    }
+    
+    header {
+      background-color: #000000;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #00ff00;
+      font-size: 32px;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    nav ul li a {
+      color: #00ff00;
+      text-decoration: none;
+    }
+
+    .sub-menu {
+      display: none;
+    }
+
+    .sub-menu.visible {
+      display: block;
+    }
+    
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    
+    h2 {
+      color: #00ff00;
+      font-size: 24px;
+      padding: 10px;
+      border-bottom: 2px solid #aa00ff;
+    }
+    
+    p {
+      line-height: 1.5;
+    }
+    
+    footer {
+      background-color: #000000;
+      color: #00ff00;
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+  <script>
+    function toggleSubMenu() {
+      var subMenu = document.getElementById('sub-menu');
+      subMenu.classList.toggle('visible');
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo" class="logo">
+    <h1>Quieux Linux</h1><br>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="changelog.html">ChangeLog</a></li>
+        <li><a href="javascript:void(0);" onclick="toggleSubMenu();">Language</a>
+          <ul id="sub-menu" class="sub-menu">
+            <li><a href="es/">Español</a></li>
+            <li><a href="en/">English</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>How to Create a Bootable USB Drive</h2>
+    <p>
+      <strong>Using Rufus on Windows:</strong><br>
+      1. Download Rufus from the official website: <a href="https://rufus.ie" style="color: #00ff00; text-decoration: none;">rufus.ie</a><br>
+      2. Connect the USB drive to your computer.<br>
+      3. Open Rufus. It should automatically detect your USB drive.<br>
+      4. In "Boot selection", click "Select" and choose the Quieux Linux ISO.<br>
+      5. Leave the other options as default and click "Start".<br>
+      6. Wait for the process to complete. A success message will appear when it's done.<br><br>
+      
+      <strong>Using the Terminal on Linux with the DD Command:</strong><br>
+      1. Connect the USB drive to your computer.<br>
+      2. Identify the USB drive device with the command: <code>sudo fdisk -l</code>. It will be something like <code>/dev/sdX</code>.<br>
+      3. Make sure the device is unmounted: <code>sudo umount /dev/sdX*</code>.<br>
+      4. Use the DD command to create the bootable USB drive: <code>sudo dd if=/path/to/quieux.iso of=/dev/sdX bs=4M status=progress</code>.<br>
+      5. Wait for the process to complete. When it's done, the terminal will return to the prompt.<br>
+    </p>
+
+    <h2>How to Install Programs</h2>
+    <p>
+      <strong>Install .quel packages locally:</strong><br>
+      <code>sudo quel -i *program path*</code><br><br>
+      
+      <strong>Remove installed programs from your computer:</strong><br>
+      <code>sudo quel -r *program path*</code><br><br>
+      
+      <strong>Update the list of repositories:</strong><br>
+      <code>sudo quel -u</code><br><br>
+      
+      <strong>Search for the package in the repository and download it for installation:</strong><br>
+      <code>sudo quel -d *program name*</code><br><br>
+      
+      <strong>Search for the package in the public repository and download it for installation:</strong><br>
+      <code>sudo quel -pub *program name*</code><br>
+    </p>
+
+    <h2>How to Permanently Install Quieux Linux</h2>
+    <p>
+      <strong>Using Refracta Installer:</strong><br>
+      1. Download the Quieux Linux ISO and create a bootable USB drive following the instructions above.<br>
+      2. Boot the computer from the USB drive.<br>
+      3. In the live environment, open a terminal and run the Refracta Installer: <code>sudo refractainstaller</code>.<br>
+      4. Follow the on-screen instructions:<br>
+      &nbsp;&nbsp;a. Select the "Install to partition" option and choose the desired partition.<br>
+      &nbsp;&nbsp;b. Configure the partition options as needed.<br>
+      &nbsp;&nbsp;c. Follow the prompts to configure GRUB and other settings.<br>
+      5. When the installation is complete, restart the computer and remove the USB drive.<br>
+      6. Quieux Linux should boot from the hard drive.<br>
+    </p>
+
+    <h2>How to Create Your Own Package</h2>
+    <p>
+      Documentation under development... please wait
+    </p>
+  </main>
+
+  <footer>
+    &copy; 2023 Quieux Linux.
+  </footer>
+</body>
+</html>
