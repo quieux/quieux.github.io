@@ -108,14 +108,15 @@
   <main>
     <h2>Como criar um pendrive bootável</h2>
     <p>
-      <strong>Usando o Rufus no Windows:</strong><br>
-      1. Baixe o Rufus do site oficial: <a href="https://rufus.ie" style="color: #00ff00; text-decoration: none;">rufus.ie</a><br>
-      2. Conecte o pendrive ao seu computador.<br>
-      3. Abra o Rufus. Ele deve detectar automaticamente o seu pendrive.<br>
-      4. Em "Seleção de boot", clique em "Selecionar" e escolha a ISO do Quieux Linux.<br>
-      5. Deixe as outras opções como padrão e clique em "Iniciar".<br>
-      6. Aguarde o processo ser concluído. Uma mensagem de sucesso aparecerá quando estiver pronto.<br><br>
-      
+      <strong>Usando o Win32 Disk Imager no Windows:</strong><br>
+      1. Baixe o Win32 Disk Imager do site oficial: <a href="https://sourceforge.net/projects/win32diskimager/" style="color: #00ff00; text-decoration: none;">sourceforge.net</a><br>
+      2. Converta a ISO do Quieux Linux para o formato IMG, se necessário (pode-se usar ferramentas como o AnyToISO ou outros conversores online).<br>
+      3. Conecte o pendrive ao seu computador.<br>
+      4. Abra o Win32 Disk Imager. Ele deve detectar automaticamente seu pendrive.<br>
+      5. Selecione o arquivo .img correspondente ao Quieux Linux.<br>
+      6. Confirme a letra da unidade do pendrive e clique em "Write".<br>
+      7. Aguarde o processo ser concluído. Uma mensagem de sucesso aparecerá quando estiver pronto.<br><br>
+    
       <strong>Usando o Terminal no Linux com o comando DD:</strong><br>
       1. Conecte o pendrive ao seu computador.<br>
       2. Identifique o dispositivo do pendrive com o comando: <code>sudo fdisk -l</code>. Ele será algo como <code>/dev/sdX</code>.<br>
@@ -123,36 +124,15 @@
       4. Use o comando DD para criar o pendrive bootável: <code>sudo dd if=/caminho/para/quieux.iso of=/dev/sdX bs=4M status=progress</code>.<br>
       5. Aguarde o processo ser concluído. Quando terminar, o terminal voltará ao prompt.<br>
     </p>
-
-    <h2>Primeiro Login</h2>
-    <p>
-      <strong>Root:</strong><br>
-      User : root <br>
-      Senha : root$$ <br>
-
-      <strong>Usuario Comum:</strong><br>
-      Senha : linux$$ <br><br>
-      
-      <strong>Atenção</strong><br>
-      <code>Caso durante o boot o processo seja parado devido ao erro abaixo, basta da enter para continuar.</code><br><br>
-      <img src="print.png" alt="print" class="print"><br><br>
-      <code>Caso instale o sistema de maneira permanente e prentenda remover esse erro basta usar os seguintes comando como root:</code><br><br>
-      <code>cd /etc/ssh</code><br>
-      <code>ssh-keygen -A</code><br>
-      <code>/etc/init.d/sshd start</code><br>
-
-    </p>
     
     <h2>Como instalar programas</h2>
     <p>
-      <strong>Instalar pacotes .quel localmente:</strong><br>
-      <code>sudo quel -i *caminho do programa*</code><br><br>
-      
-      <strong>Remover programas instalados no seu computador:</strong><br>
-      <code>sudo quel -r *caminho do programa*</code><br><br>
-      
+
       <strong>Atualizar a lista de repositórios:</strong><br>
       <code>sudo quel -u</code><br><br>
+      
+      <strong>Instalar pacotes .quel localmente:</strong><br>
+      <code>sudo quel -i *caminho do programa*</code><br><br>
       
       <strong>Buscar o pacote no repositório e realizar o download para instalação:</strong><br>
       <code>sudo quel -d *nome do programa*</code><br><br>
@@ -163,16 +143,8 @@
 
     <h2>Como instalar o Quieux Linux permanentemente</h2>
     <p>
-      <strong>Usando o Refracta Installer:</strong><br>
-      1. Baixe a ISO do Quieux Linux e crie um pendrive bootável seguindo as instruções acima.<br>
-      2. Dê boot no computador a partir do pendrive.<br>
-      3. No ambiente live, abra um terminal e execute o Refracta Installer: <code>sudo refractainstaller</code>.<br>
-      4. Siga as instruções na tela:<br>
-      &nbsp;&nbsp;a. Selecione a opção "Install to partition" e escolha a partição desejada.<br>
-      &nbsp;&nbsp;b. Configure as opções de partição conforme necessário.<br>
-      &nbsp;&nbsp;c. Siga os prompts para configurar o GRUB e outros ajustes.<br>
-      5. Quando a instalação estiver completa, reinicie o computador e remova o pendrive.<br>
-      6. O Quieux Linux deve iniciar a partir do disco rígido.<br>
+      <strong>Aviso:</strong><br>
+      Está em desenvolvimento um instalador mas ainda não foi finalizado, por enquanto a maneira de instalação permanente requer conhecimento em partição e grub.
     </p>
 
     <h2>Como criar seu próprio pacote</h2>
