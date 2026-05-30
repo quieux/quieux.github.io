@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentação — Quieux Linux</title>
+  <style>
+    @font-face {
+      font-family: 'Dogica';
+      src: url('../dogica.ttf') format('truetype');
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0b0b0b;
+      --card: #111111;
+      --border: #1f1f1f;
+      --text: #e5e5e5;
+      --muted: #9b9b9b;
+      --green: #72ff72;
+      --purple: #9d4edd;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      line-height: 1.7;
+    }
+    a { color: var(--green); text-decoration: none; transition: 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    /* HEADER */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar {
+      max-width: 1150px;
+      margin: auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand img { width: 48px; height: 48px; }
+    .brand h1 { font-size: 22px; color: white; font-weight: 700; letter-spacing: 1px; }
+    nav ul { list-style: none; display: flex; gap: 24px; align-items: center; }
+    nav a { color: #d6d6d6; font-size: 15px; }
+    .language-menu { position: relative; }
+    .sub-menu {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #121212;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      min-width: 150px;
+      padding: 10px 0;
+    }
+    .sub-menu a { display: block; padding: 10px 14px; }
+    .sub-menu a:hover { background: #1b1b1b; }
+    .sub-menu.visible { display: block; }
+
+    /* LAYOUT */
+    .page-wrapper {
+      max-width: 1150px;
+      margin: auto;
+      padding: 50px 20px 80px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: sticky;
+      top: 90px;
+    }
+    .sidebar-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      padding-left: 12px;
+    }
+    .sidebar nav ul { flex-direction: column; gap: 2px; }
+    .sidebar nav a {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+    }
+    .sidebar nav a:hover,
+    .sidebar nav a.active {
+      color: var(--green);
+      background: rgba(114,255,114,0.05);
+      border-left-color: var(--green);
+    }
+    .sidebar-section { margin-bottom: 28px; }
+
+    /* CONTENT */
+    .doc-content { min-width: 0; }
+
+    .doc-header {
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-header .badge {
+      display: inline-block;
+      background: rgba(114,255,114,0.1);
+      color: var(--green);
+      border: 1px solid rgba(114,255,114,0.25);
+      border-radius: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .doc-header h1 {
+      font-size: 40px;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    .doc-header p {
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 600px;
+    }
+
+    /* SECTIONS */
+    .doc-section { margin-bottom: 64px; scroll-margin-top: 100px; }
+    .doc-section h2 {
+      font-size: 26px;
+      color: white;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .doc-section h2 .icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(114,255,114,0.1);
+      border: 1px solid rgba(114,255,114,0.2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 14px 0 28px;
+    }
+    .doc-section p { color: #c9c9c9; margin-bottom: 16px; font-size: 15.5px; }
+
+    /* STEP */
+    .step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(114,255,114,0.12);
+      border: 1px solid rgba(114,255,114,0.3);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-title { font-size: 16px; font-weight: 600; color: white; }
+    .step p { color: #b8b8b8; font-size: 14.5px; margin-bottom: 10px; }
+    .step p:last-child { margin-bottom: 0; }
+
+    /* CODE */
+    .code-block {
+      background: #0d0d0d;
+      border: 1px solid #252525;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 12px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 13.5px;
+      color: var(--green);
+      overflow-x: auto;
+      position: relative;
+    }
+    .code-block .comment { color: #555; }
+
+    /* TABS */
+    .tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 1px solid var(--border); }
+    .tab-btn {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+    .tab-content { display: none; padding-top: 20px; }
+    .tab-content.active { display: block; }
+    .tab-wrapper {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+
+    /* SCREENSHOT */
+    .screenshot-wrap {
+      margin: 18px 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0d0d0d;
+    }
+    .screenshot-wrap .ss-label {
+      padding: 8px 14px;
+      background: #0f0f0f;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .screenshot-wrap .ss-label span { color: #444; }
+    .screenshot-wrap img {
+      width: 100%;
+      display: block;
+    }
+    .screenshot-wrap .ss-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d0d0d;
+      color: #333;
+      font-size: 13px;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .screenshot-wrap .ss-placeholder svg { opacity: 0.3; }
+
+    /* CMD TABLE */
+    .cmd-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+    .cmd-table th {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .cmd-table td {
+      padding: 12px 14px;
+      font-size: 14px;
+      border-bottom: 1px solid #181818;
+      vertical-align: top;
+    }
+    .cmd-table tr:last-child td { border-bottom: none; }
+    .cmd-table .cmd { font-family: monospace; color: var(--green); font-size: 13.5px; }
+    .cmd-table .desc { color: #b0b0b0; }
+
+    /* CALLOUT */
+    .callout {
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .callout.tip { background: rgba(114,255,114,0.06); border: 1px solid rgba(114,255,114,0.15); color: #a8e6a8; }
+    .callout.warn { background: rgba(255,180,0,0.06); border: 1px solid rgba(255,180,0,0.15); color: #e6c97a; }
+    .callout.info { background: rgba(100,160,255,0.06); border: 1px solid rgba(100,160,255,0.15); color: #8ab4f8; }
+    .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* SUPPORT */
+    .support-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+    }
+    .support-box h3 { font-size: 20px; color: white; margin-bottom: 10px; }
+    .support-box p { color: var(--muted); margin-bottom: 20px; }
+    .support-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: 11px 20px;
+      border-radius: 9px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: white;
+      font-size: 14px;
+      display: inline-block;
+    }
+    .btn-primary { background: var(--green); color: black; border: none; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 20px;
+      text-align: center;
+      color: #8d8d8d;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .page-wrapper { grid-template-columns: 1fr; }
+      .sidebar { position: static; display: none; }
+      .doc-header h1 { font-size: 30px; }
+    }
+    @media (max-width: 600px) {
+      .navbar { flex-direction: column; gap: 20px; }
+      nav ul { gap: 14px; flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="brand">
+      <img src="../logo.png" alt="Logo">
+      <h1>Quieux Linux</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="../sobre.html">Sobre</a></li>
+        <li><a href="../repo.html">Repositório</a></li>
+        <li><a href="../doc/">Documentação</a></li>
+        <li><a href="../changelog.html">ChangeLog</a></li>
+        <li class="language-menu">
+          <a href="javascript:void(0);" onclick="toggleSubMenu()">Idioma</a>
+          <div id="sub-menu" class="sub-menu">
+            <a href="/doc/es/">Español</a>
+            <a href="/doc/en/">English</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="page-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <p class="sidebar-title">Instalação</p>
+      <nav>
+        <ul>
+          <li><a href="#preparar-iso">Preparar a ISO</a></li>
+          <li><a href="#modo-live">Modo Live</a></li>
+          <li><a href="#instalador">Usando o Instalador</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-title">Gerenciador QUEL</p>
+      <nav>
+        <ul>
+          <li><a href="#sobre-quel">Sobre o QUEL</a></li>
+          <li><a href="#acesso-root">Acesso Root</a></li>
+          <li><a href="#comandos">Comandos</a></li>
+          <li><a href="#interface-grafica">Interface Gráfica</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-title">Suporte</p>
+      <nav>
+        <ul>
+          <li><a href="#suporte">Fórum e Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="doc-content">
+
+    <div class="doc-header">
+      <span class="badge">Documentação Oficial</span>
+      <h1>Guia do Quieux Linux</h1>
+      <p>Tudo que você precisa para instalar, usar e gerenciar pacotes no Quieux Linux.</p>
+    </div>
+
+    <!-- ========== PARTE 1: INSTALAÇÃO ========== -->
+
+    <div class="doc-section" id="preparar-iso">
+      <h2><span class="icon">💿</span> Preparar a ISO</h2>
+      <div class="section-divider"></div>
+      <p>Antes de iniciar a instalação, você precisa gravar a ISO do Quieux Linux em um pendrive de pelo menos <strong style="color:white">8 GB</strong>. Escolha o método de acordo com seu sistema operacional:</p>
+
+      <div class="tab-wrapper">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(event, 'windows')">🪟 Windows (Rufus)</button>
+          <button class="tab-btn" onclick="switchTab(event, 'linux')">🐧 Linux (Terminal)</button>
+        </div>
+
+        <div id="tab-windows" class="tab-content active">
+          <div class="step">
+            <div class="step-header"><span class="step-num">1</span><span class="step-title">Baixe o Rufus</span></div>
+            <p>Acesse <a href="https://rufus.ie/" target="_blank">rufus.ie</a> e baixe a versão mais recente do Rufus. É uma ferramenta gratuita e não requer instalação.</p>
+          </div>
+          <div class="step">
+            <div class="step-header"><span class="step-num">2</span><span class="step-title">Insira o pendrive</span></div>
+            <p>Conecte seu pendrive (mínimo 8 GB) ao computador. <strong style="color:#e5854a">Atenção:</strong> todos os dados do pendrive serão apagados.</p>
+          </div>
+          <div class="step">
+            <div class="step-header"><span class="step-num">3</span><span class="step-title">Configure o Rufus</span></div>
+            <p>Abra o Rufus e configure conforme abaixo:</p>
+            <ul style="color:#b8b8b8;font-size:14.5px;padding-left:20px;margin-top:8px;line-height:2">
+              <li><strong style="color:white">Dispositivo:</strong> selecione seu pendrive</li>
+              <li><strong style="color:white">Seleção de boot:</strong> clique em <em>Selecionar</em> e escolha a ISO do Quieux</li>
+              <li><strong style="color:white">Esquema de partição:</strong> MBR (recomendado para maioria dos PCs)</li>
+              <li><strong style="color:white">Sistema de destino:</strong> BIOS ou UEFI-CSM</li>
+            </ul>
+          </div>
+          <div class="step">
+            <div class="step-header"><span class="step-num">4</span><span class="step-title">Grave a ISO</span></div>
+            <p>Clique em <strong style="color:white">Iniciar</strong>, confirme o aviso de formatação e aguarde o processo concluir. Quando aparecer "Pronto", seu pendrive está preparado.</p>
+          </div>
+        </div>
+
+        <div id="tab-linux" class="tab-content">
+          <div class="step">
+            <div class="step-header"><span class="step-num">1</span><span class="step-title">Identifique o pendrive</span></div>
+            <p>Conecte o pendrive e execute o comando abaixo para descobrir o identificador correto do dispositivo (ex: <code style="color:var(--green)">/dev/sdb</code>):</p>
+            <div class="code-block">lsblk</div>
+            <div class="callout warn"><span class="callout-icon">⚠️</span>Confirme o dispositivo correto antes do próximo passo. O uso errado pode sobrescrever seu HD.</div>
+          </div>
+          <div class="step">
+            <div class="step-header"><span class="step-num">2</span><span class="step-title">Grave a ISO com dd</span></div>
+            <p>Substitua <code style="color:var(--green)">/caminho/para/quieux.iso</code> pelo caminho real da ISO e <code style="color:var(--green)">/dev/sdX</code> pelo dispositivo do seu pendrive:</p>
+            <div class="code-block"><span class="comment"># Substitua sdX pelo seu dispositivo (ex: sdb)</span>
+sudo dd if=/caminho/para/quieux.iso of=/dev/sdX bs=4M status=progress oflag=sync</div>
+          </div>
+          <div class="step">
+            <div class="step-header"><span class="step-num">3</span><span class="step-title">Aguarde a conclusão</span></div>
+            <p>O processo pode levar alguns minutos. Quando o terminal retornar ao prompt, o pendrive está pronto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODO LIVE -->
+    <div class="doc-section" id="modo-live">
+      <h2><span class="icon">🚀</span> Modo Live</h2>
+      <div class="section-divider"></div>
+      <p>Com o pendrive preparado, reinicie o computador e selecione o pendrive como dispositivo de boot (geralmente pela tecla <strong style="color:white">F12</strong>, <strong style="color:white">F2</strong> ou <strong style="color:white">Del</strong> durante a inicialização, dependendo do fabricante). O Quieux Linux iniciará no modo Live, permitindo que você experimente a distribuição sem instalar nada.</p>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        No modo Live você pode usar o QUEL livremente para testar repositórios e programas antes de instalar o sistema.
+      </div>
+
+      <p>Ao entrar no modo Live, você verá a área de trabalho inicial do Quieux Linux:</p>
+
+      <div class="screenshot-wrap">
+        <div class="ss-label">📷 Figura 1 <span>— Tela inicial do modo Live</span></div>
+        <img src="1.png" alt="Tela inicial do Quieux Linux no modo Live" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ss-placeholder" style="display:none">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          1.png
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTALADOR -->
+    <div class="doc-section" id="instalador">
+      <h2><span class="icon">⚙️</span> Usando o Instalador</h2>
+      <div class="section-divider"></div>
+      <p>Para instalar o Quieux Linux no seu computador, siga os passos abaixo:</p>
+
+      <div class="step">
+        <div class="step-header"><span class="step-num">1</span><span class="step-title">Abrir o instalador</span></div>
+        <p>Na área de trabalho, clique duas vezes no atalho <strong style="color:white">install-quieux</strong> para abrir o instalador.</p>
+        <div class="screenshot-wrap">
+          <div class="ss-label">📷 Figura 2 <span>— Atalho e tela inicial do instalador</span></div>
+          <img src="2.png" alt="Instalador do Quieux Linux" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ss-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            2.png
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header"><span class="step-num">2</span><span class="step-title">Selecionar idioma e teclado</span></div>
+        <p>Após clicar em <strong style="color:white">Ok</strong>, selecione o idioma e layout de teclado. Para o padrão brasileiro utilize:</p>
+        <ul style="color:#b8b8b8;font-size:14.5px;padding-left:20px;margin-top:8px;line-height:2.2">
+          <li><strong style="color:white">Linguagem:</strong> <code style="color:var(--green)">pt_BR</code></li>
+          <li><strong style="color:white">Teclado:</strong> <code style="color:var(--green)">br-abnt</code></li>
+        </ul>
+        <p>Clique em <strong style="color:white">Ok</strong> para prosseguir.</p>
+        <div class="screenshot-wrap">
+          <div class="ss-label">📷 Figura 3 <span>— Seleção de idioma e teclado</span></div>
+          <img src="3.png" alt="Seleção de idioma e teclado" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ss-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            3.png
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header"><span class="step-num">3</span><span class="step-title">Criar usuário e senha</span></div>
+        <p>Preencha o nome de usuário e senha desejados e clique em <strong style="color:white">Ok</strong>.</p>
+        <div class="screenshot-wrap">
+          <div class="ss-label">📷 Figura 4 <span>— Criação de usuário e senha</span></div>
+          <img src="4.png" alt="Criação de usuário" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ss-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            4.png
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header"><span class="step-num">4</span><span class="step-title">Selecionar o disco de instalação</span></div>
+        <p>Selecione o HD ou SSD onde o Quieux Linux será instalado e clique em <strong style="color:white">Automatic</strong>. O instalador irá criar e formatar as partições automaticamente.</p>
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          O botão <strong>Manual</strong> é destinado a usuários avançados que desejam reparticionar ou criar partições customizadas. Para a maioria dos casos, o modo <strong>Automatic</strong> é o recomendado.
+        </div>
+        <div class="screenshot-wrap">
+          <div class="ss-label">📷 Figura 5 <span>— Seleção de disco</span></div>
+          <img src="5.png" alt="Seleção do HD de instalação" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ss-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            5.png
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header"><span class="step-num">5</span><span class="step-title">Confirmação</span></div>
+        <p>Uma tela de confirmação será exibida. Clique em <strong style="color:white">Ok</strong> para continuar.</p>
+        <div class="screenshot-wrap">
+          <div class="ss-label">📷 Figura 6 <span>— Tela de confirmação</span></div>
+          <img src="6.png" alt="Confirmação de instalação" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ss-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            6.png
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header"><span class="step-num">6</span><span class="step-title">Prosseguir para instalação</span></div>
+        <p>Mais uma tela de confirmação será exibida. Clique em <strong style="color:white">Ok</strong> para dar início à instalação.</p>
+        <div class="screenshot-wrap">
+          <div class="ss-label">📷 Figura 7 <span>— Tela de confirmação final</span></div>
+          <img src="7.png" alt="Confirmação final" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ss-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            7.png
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header"><span class="step-num">7</span><span class="step-title">Instalação do GRUB</span></div>
+        <p>Após aguardar aproximadamente <strong style="color:white">10 minutos</strong>, uma tela perguntará sobre a instalação do <strong style="color:white">GRUB</strong> (bootloader). Isso é fundamental caso o HD contenha apenas o Quieux Linux instalado. Recomenda-se prosseguir: selecione o mesmo HD onde o sistema foi instalado e clique em <strong style="color:white">Ok</strong>.</p>
+        <div class="screenshot-wrap">
+          <div class="ss-label">📷 Figura 9 <span>— Instalação do GRUB</span></div>
+          <img src="9.png" alt="Instalação do GRUB" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ss-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            9.png
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header"><span class="step-num">8</span><span class="step-title">Instalação concluída!</span></div>
+        <p>A instalação foi concluída com sucesso! Retire o pendrive do computador e reinicie para iniciar o Quieux Linux instalado. Bom uso! 🎉</p>
+        <div class="screenshot-wrap">
+          <div class="ss-label">📷 Figura 10 <span>— Instalação concluída</span></div>
+          <img src="10.png" alt="Instalação concluída" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ss-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            10.png
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PARTE 2: QUEL ========== -->
+
+    <div class="doc-section" id="sobre-quel">
+      <h2><span class="icon">📦</span> Sobre o QUEL</h2>
+      <div class="section-divider"></div>
+      <p>O <strong style="color:white">QUEL</strong> é o gerenciador de pacotes nativo do Quieux Linux. Com ele você pode instalar, remover e atualizar programas e o próprio sistema de forma simples e prática, tanto via terminal quanto pela interface gráfica.</p>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        Em modo Live, o QUEL pode ser usado livremente para testar repositórios e programas sem afetar o sistema.
+      </div>
+    </div>
+
+    <div class="doc-section" id="acesso-root">
+      <h2><span class="icon">🔐</span> Acesso Root</h2>
+      <div class="section-divider"></div>
+      <p>Após instalar o Quieux Linux, o comando <code style="color:var(--green)">quel</code> e a interface gráfica devem ser usados apenas com privilégios de <strong style="color:white">root</strong> para garantir a segurança do sistema. Para isso, abra o terminal e execute:</p>
+
+      <div class="code-block">su</div>
+      <p style="margin-top:4px">Quando solicitado, digite a senha <strong style="color:white">root</strong> e pressione Enter. Você agora possui acesso administrativo ao sistema.</p>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        Use o acesso root com cuidado. Comandos executados como root têm efeito imediato sobre o sistema e não pedem confirmação adicional.
+      </div>
+
+      <div class="screenshot-wrap">
+        <div class="ss-label">📷 Figura 11 <span>— Terminal com acesso root</span></div>
+        <img src="11.png" alt="Terminal com acesso root" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ss-placeholder" style="display:none">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          11.png
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-section" id="comandos">
+      <h2><span class="icon">💻</span> Comandos do QUEL</h2>
+      <div class="section-divider"></div>
+      <p>Com o terminal em modo root, você pode gerenciar pacotes com os seguintes comandos:</p>
+
+      <div class="tab-wrapper" style="padding: 0; overflow: hidden;">
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cmd">sudo quel -i</td>
+              <td class="desc">Instala pacotes <code style="color:#aaa">.quel</code> localmente</td>
+            </tr>
+            <tr>
+              <td class="cmd">sudo quel -r</td>
+              <td class="desc">Remove programas instalados no computador</td>
+            </tr>
+            <tr>
+              <td class="cmd">sudo quel -u</td>
+              <td class="desc">Atualiza a lista de repositórios</td>
+            </tr>
+            <tr>
+              <td class="cmd">sudo quel -d</td>
+              <td class="desc">Busca e baixa um pacote do repositório para instalação</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="doc-section" id="interface-grafica">
+      <h2><span class="icon">🖥️</span> Interface Gráfica (quel-gtk)</h2>
+      <div class="section-divider"></div>
+      <p>Prefere uma interface visual? Execute o comando abaixo com acesso root para abrir o gerenciador gráfico do QUEL:</p>
+
+      <div class="code-block">quel-gtk</div>
+
+      <div class="screenshot-wrap">
+        <div class="ss-label">📷 Figura 12 <span>— Interface gráfica do QUEL</span></div>
+        <img src="12.png" alt="Interface gráfica do QUEL" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ss-placeholder" style="display:none">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          12.png
+        </div>
+      </div>
+
+      <p>Após abrir a interface, siga esta ordem recomendada:</p>
+
+      <div class="step">
+        <div class="step-header"><span class="step-num">1</span><span class="step-title">Atualizar repositórios</span></div>
+        <p>Clique em <strong style="color:white">Atualizar repositórios</strong> para sincronizar a lista de pacotes disponíveis.</p>
+      </div>
+      <div class="step">
+        <div class="step-header"><span class="step-num">2</span><span class="step-title">Atualizar o sistema</span></div>
+        <p>Clique em <strong style="color:white">Manutenção</strong> e depois em <strong style="color:white">Atualizar Quieux Linux</strong>. Caso o sistema já esteja na versão mais recente, prossiga para o próximo passo.</p>
+      </div>
+      <div class="step">
+        <div class="step-header"><span class="step-num">3</span><span class="step-title">Explorar pacotes</span></div>
+        <p>Clique em <strong style="color:white">Explorar pacotes</strong> para visualizar e instalar os programas disponíveis no repositório.</p>
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          A lista de pacotes disponíveis será expandida em breve. Fique de olho nas atualizações!
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPORTE -->
+    <div class="doc-section" id="suporte">
+      <h2><span class="icon">🤝</span> Suporte e Contribuição</h2>
+      <div class="section-divider"></div>
+      <div class="support-box">
+        <h3>Ficou com alguma dúvida?</h3>
+        <p>Não hesite em buscar ajuda. Nossa comunidade está pronta para te auxiliar. E se quiser contribuir, temos vagas abertas para <strong style="color:white">testers</strong> e <strong style="color:white">empacotadores</strong>!</p>
+        <div class="support-links">
+          <a class="btn btn-primary" href="https://quieux.forumeiros.com/" target="_blank">Acessar o Fórum</a>
+          <a class="btn" href="mailto:queldevelopment@gmail.com">queldevelopment@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  © 2026 Quieux Linux — Desenvolvido por
+  <a href="https://br.linkedin.com/in/ezequielcarvalho">Ezequiel Carvalho</a>
+</footer>
+
+<script>
+  function toggleSubMenu() {
+    document.getElementById("sub-menu").classList.toggle("visible");
+  }
+
+  function switchTab(e, id) {
+    const wrapper = e.target.closest('.tab-wrapper');
+    wrapper.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    wrapper.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    wrapper.querySelector('#tab-' + id).classList.add('active');
+  }
+
+  // Sidebar active link on scroll
+  const sections = document.querySelectorAll('.doc-section');
+  const sideLinks = document.querySelectorAll('.sidebar nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        sideLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector('.sidebar nav a[href="#' + entry.target.id + '"]');
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
