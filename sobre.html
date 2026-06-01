@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre — Quieux Linux</title>
+  <style>
+    @font-face {
+      font-family: 'Dogica';
+      src: url('dogica.ttf') format('truetype');
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0b0b0b;
+      --card: #111111;
+      --border: #1f1f1f;
+      --text: #e5e5e5;
+      --muted: #9b9b9b;
+      --green: #72ff72;
+      --purple: #9d4edd;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      line-height: 1.7;
+    }
+    a { color: var(--green); text-decoration: none; transition: 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    /* HEADER */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar {
+      max-width: 1150px;
+      margin: auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand img { width: 48px; height: 48px; }
+    .brand h1 { font-size: 22px; color: white; font-weight: 700; letter-spacing: 1px; }
+    nav ul { list-style: none; display: flex; gap: 24px; align-items: center; }
+    nav a { color: #d6d6d6; font-size: 15px; }
+    .language-menu { position: relative; }
+    .sub-menu {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #121212;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      min-width: 150px;
+      padding: 10px 0;
+    }
+    .sub-menu a { display: block; padding: 10px 14px; }
+    .sub-menu a:hover { background: #1b1b1b; }
+    .sub-menu.visible { display: block; }
+
+    /* PAGE */
+    .container {
+      max-width: 780px;
+      margin: auto;
+      padding: 70px 20px 100px;
+    }
+
+    /* HERO */
+    .page-hero {
+      margin-bottom: 60px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(114,255,114,0.1);
+      color: var(--green);
+      border: 1px solid rgba(114,255,114,0.25);
+      border-radius: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .page-hero h1 {
+      font-size: 44px;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .page-hero p {
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 560px;
+    }
+
+    /* TIMELINE / STORY */
+    .story { display: flex; flex-direction: column; gap: 0; }
+
+    .story-block {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 0 24px;
+      position: relative;
+    }
+
+    .story-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .story-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(114,255,114,0.2);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .story-dot.muted {
+      background: #2a2a2a;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
+    }
+    .story-connector {
+      width: 2px;
+      flex: 1;
+      background: linear-gradient(to bottom, rgba(114,255,114,0.3), rgba(114,255,114,0.05));
+      margin: 6px 0;
+      min-height: 40px;
+    }
+    .story-connector.faint {
+      background: linear-gradient(to bottom, #222, #181818);
+    }
+
+    .story-body {
+      padding-bottom: 48px;
+    }
+    .story-year {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--green);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .story-body h2 {
+      font-size: 22px;
+      color: white;
+      margin-bottom: 12px;
+    }
+    .story-body p {
+      color: #c0c0c0;
+      font-size: 15.5px;
+      margin-bottom: 14px;
+    }
+    .story-body p:last-child { margin-bottom: 0; }
+
+    /* HIGHLIGHT CARD */
+    .highlight-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-top: 18px;
+    }
+    .highlight-card h3 {
+      font-size: 15px;
+      color: white;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .highlight-card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+
+    /* FEATURE PILLS */
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .pill {
+      background: #161616;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 13px;
+      color: #d0d0d0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .pill span { color: var(--green); }
+
+    /* OBS CALLOUT */
+    .callout {
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 16px;
+      font-size: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: rgba(255,180,0,0.05);
+      border: 1px solid rgba(255,180,0,0.14);
+      color: #d4b87a;
+    }
+    .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* CTA */
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .btn {
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: white;
+      font-size: 14px;
+      display: inline-block;
+    }
+    .btn-primary { background: var(--green); color: black; border: none; }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 60px 0;
+    }
+
+    /* AUTHOR */
+    .author-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .author-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(114,255,114,0.15), rgba(157,78,221,0.15));
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .author-info h3 { font-size: 18px; color: white; margin-bottom: 4px; }
+    .author-info .role { font-size: 13px; color: var(--green); margin-bottom: 10px; }
+    .author-info p { color: var(--muted); font-size: 14px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 20px;
+      text-align: center;
+      color: #8d8d8d;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .navbar { flex-direction: column; gap: 20px; }
+      nav ul { gap: 14px; flex-wrap: wrap; justify-content: center; }
+      .page-hero h1 { font-size: 32px; }
+      .author-card { flex-direction: column; }
+      .story-block { grid-template-columns: 28px 1fr; gap: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="brand">
+      <img src="logo.png" alt="Logo">
+      <h1>Quieux Linux</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="repo.html">Repositório</a></li>
+        <li><a href="doc/">Documentação</a></li>
+        <li><a href="changelog.html">ChangeLog</a></li>
+        <li class="language-menu">
+          <a href="javascript:void(0);" onclick="toggleSubMenu()">Idioma</a>
+          <div id="sub-menu" class="sub-menu">
+            <a href="/doc/es/">Español</a>
+            <a href="/doc/en/">English</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page-hero">
+    <span class="badge">Sobre o Projeto</span>
+    <h1>A história por trás do Quieux Linux</h1>
+    <p>Uma distribuição brasileira nascida da necessidade de organização, leveza e controle total sobre os próprios programas.</p>
+  </div>
+
+  <div class="story">
+
+    <!-- BLOCO 1 -->
+    <div class="story-block">
+      <div class="story-line">
+        <div class="story-dot"></div>
+        <div class="story-connector"></div>
+      </div>
+      <div class="story-body">
+        <div class="story-year">A origem</div>
+        <h2>Organização como filosofia</h2>
+        <p>Sempre fui uma pessoa que gostou de manter os programas bem organizados no Linux. Existem muitas distribuições que fazem isso de forma atômica e eficiente — mas geralmente com um nível de complexidade bastante alto.</p>
+        <p>Essa insatisfação me fez querer construir algo diferente: uma solução que priorizasse a simplicidade sem abrir mão do controle.</p>
+      </div>
+    </div>
+
+    <!-- BLOCO 2 -->
+    <div class="story-block">
+      <div class="story-line">
+        <div class="story-dot"></div>
+        <div class="story-connector"></div>
+      </div>
+      <div class="story-body">
+        <div class="story-year">2023 — O QUEL</div>
+        <h2>Nasce o gerenciador de pacotes</h2>
+        <p>Em 2023 criei o <strong style="color:white">QUEL</strong>, um gerenciador de pacotes com uma ideia simples: utilizar programas pré-compilados e compactados com <strong style="color:white">SquashFS</strong>.</p>
+
+        <div class="highlight-card">
+          <h3>⚡ O que o QUEL oferece</h3>
+          <p>Com essa abordagem, é possível gerenciar versões de programas, instalar atualizações por cima das existentes e, ao desinstalar qualquer programa, todos os seus vestígios são removidos completamente — sem resíduos.</p>
+        </div>
+
+        <div class="pills">
+          <div class="pill"><span>✦</span> Pacotes pré-compilados</div>
+          <div class="pill"><span>✦</span> Compactação SquashFS</div>
+          <div class="pill"><span>✦</span> Remoção limpa</div>
+          <div class="pill"><span>✦</span> Controle de versões</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCO 3 -->
+    <div class="story-block">
+      <div class="story-line">
+        <div class="story-dot"></div>
+        <div class="story-connector faint"></div>
+      </div>
+      <div class="story-body">
+        <div class="story-year">A distribuição</div>
+        <h2>Quieux Linux</h2>
+        <p>Além do QUEL, decidi montar uma distribuição Linux baseada em <strong style="color:white">BLFS</strong> para utilizar os pacotes dos programas que vou compilando. O repositório ainda está crescendo, mas o objetivo é adicionar muito mais conteúdo ao longo do tempo — e criar uma documentação que incentive outras pessoas a compilar programas e testar a distribuição.</p>
+
+        <div class="callout">
+          <span class="callout-icon">📌</span>
+          Alguns criadores de conteúdo já fizeram review do Quieux Linux, mas todos estão desatualizados. Anteriormente a base não era BLFS — o projeto evoluiu bastante desde então.
+        </div>
+
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://sourceforge.net/projects/quieux/files/Quieux_x86_64_XFCE4.iso/">Baixar ISO</a>
+          <a class="btn" href="doc/">Ver Documentação</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- AUTOR -->
+  <div class="author-card">
+    <div class="author-avatar">👨‍💻</div>
+    <div class="author-info">
+      <h3>Ezequiel Carvalho</h3>
+      <div class="role">Criador do Quieux Linux &amp; QUEL</div>
+      <p>Desenvolvedor brasileiro apaixonado por Linux, compilação de software e sistemas minimalistas. Construiu o Quieux Linux do zero para resolver um problema real — e continua expandindo o projeto com novos pacotes e recursos.</p>
+      <div style="margin-top:14px">
+        <a href="https://br.linkedin.com/in/ezequielcarvalho">LinkedIn →</a>
+        &nbsp;&nbsp;
+        <a href="mailto:queldevelopment@gmail.com">queldevelopment@gmail.com</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2023 Quieux Linux — Desenvolvido por
+  <a href="https://br.linkedin.com/in/ezequielcarvalho">Ezequiel Carvalho</a>
+</footer>
+
+<script>
+  function toggleSubMenu() {
+    document.getElementById("sub-menu").classList.toggle("visible");
+  }
+</script>
+</body>
+</html>
