@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChangeLog — Quieux Linux</title>
+  <style>
+    @font-face {
+      font-family: 'Dogica';
+      src: url('dogica.ttf') format('truetype');
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0b0b0b;
+      --card: #111111;
+      --border: #1f1f1f;
+      --text: #e5e5e5;
+      --muted: #9b9b9b;
+      --green: #72ff72;
+      --purple: #9d4edd;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      line-height: 1.7;
+    }
+    a { color: var(--green); text-decoration: none; transition: 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar {
+      max-width: 1150px;
+      margin: auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand img { width: 48px; height: 48px; }
+    .brand h1 { font-size: 22px; color: white; font-weight: 700; letter-spacing: 1px; }
+    nav ul { list-style: none; display: flex; gap: 24px; align-items: center; }
+    nav a { color: #d6d6d6; font-size: 15px; }
+    .language-menu { position: relative; }
+    .sub-menu {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #121212;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      min-width: 150px;
+      padding: 10px 0;
+    }
+    .sub-menu a { display: block; padding: 10px 14px; }
+    .sub-menu a:hover { background: #1b1b1b; }
+    .sub-menu.visible { display: block; }
+
+    .container {
+      max-width: 720px;
+      margin: auto;
+      padding: 60px 20px 100px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(114,255,114,0.1);
+      color: var(--green);
+      border: 1px solid rgba(114,255,114,0.25);
+      border-radius: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .page-hero { margin-bottom: 56px; }
+    .page-hero h1 { font-size: 40px; color: white; margin-bottom: 12px; }
+    .page-hero p { color: var(--muted); font-size: 16px; }
+
+    /* TIMELINE */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      padding-left: 28px;
+      border-left: 2px solid var(--border);
+    }
+
+    .tl-entry {
+      position: relative;
+      padding-bottom: 48px;
+    }
+    .tl-entry:last-child {
+      padding-bottom: 0;
+    }
+
+    /* dot on the left border */
+    .tl-entry::before {
+      content: '';
+      position: absolute;
+      left: -37px;
+      top: 5px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+    }
+    .tl-entry.latest::before {
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(114,255,114,0.15);
+      width: 16px;
+      height: 16px;
+      left: -38px;
+      top: 4px;
+    }
+    .tl-entry.major::before  { background: var(--purple); box-shadow: 0 0 0 3px rgba(157,78,221,0.2); }
+    .tl-entry.minor::before  { background: #3a3a3a; }
+    .tl-entry.origin::before { background: #4444aa; box-shadow: 0 0 0 3px rgba(100,100,255,0.15); }
+
+    .tl-date {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .tl-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 9px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .tl-tag.latest { background: rgba(114,255,114,0.12); color: var(--green);   border: 1px solid rgba(114,255,114,0.25); }
+    .tl-tag.major  { background: rgba(157,78,221,0.1);   color: #c084fc;        border: 1px solid rgba(157,78,221,0.25); }
+    .tl-tag.minor  { background: rgba(255,255,255,0.04); color: #888;           border: 1px solid #2a2a2a; }
+    .tl-tag.origin { background: rgba(100,100,255,0.08); color: #8888ff;        border: 1px solid rgba(100,100,255,0.2); }
+
+    .tl-entry h2 {
+      font-size: 20px;
+      color: white;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .change-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .change-list li {
+      font-size: 15px;
+      color: #c0c0c0;
+      padding-left: 22px;
+      position: relative;
+    }
+    .change-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #444;
+    }
+
+    .rolling-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(114,255,114,0.07);
+      border: 1px solid rgba(114,255,114,0.18);
+      color: var(--green);
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      margin-top: 16px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 20px;
+      text-align: center;
+      color: #8d8d8d;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .navbar { flex-direction: column; gap: 20px; }
+      nav ul { gap: 14px; flex-wrap: wrap; justify-content: center; }
+      .page-hero h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="brand">
+      <img src="logo.png" alt="Logo">
+      <h1>Quieux Linux</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="repo.html">Repositório</a></li>
+        <li><a href="doc/">Documentação</a></li>
+        <li><a href="changelog.html">ChangeLog</a></li>
+        <li class="language-menu">
+          <a href="javascript:void(0);" onclick="toggleSubMenu()">Idioma</a>
+          <div id="sub-menu" class="sub-menu">
+            <a href="/doc/es/">Español</a>
+            <a href="/doc/en/">English</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page-hero">
+    <span class="badge">ChangeLog</span>
+    <h1>Histórico de atualizações</h1>
+    <p>Acompanhe a evolução do Quieux Linux desde o primeiro lançamento.</p>
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-entry latest">
+      <div class="tl-date">01 de junho de 2026</div>
+      <span class="tl-tag latest">Mais recente</span>
+      <h2>Upgrade do sistema — Rolling Release</h2>
+      <ul class="change-list">
+        <li>Upgrade completo da distribuição disponível no repositório oficial, agora utilizando o kernel <strong style="color:white">7.0.11</strong>.</li>
+        <li>Quieux Linux adota oficialmente o modelo <strong style="color:white">Rolling Release</strong>: a ISO disponibilizada no site não precisará ser atualizada — basta manter o sistema atualizado via QUEL.</li>
+      </ul>
+      <div class="rolling-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Rolling Release — sem reinstalação necessária
+      </div>
+    </div>
+
+    <div class="tl-entry major">
+      <div class="tl-date">01 de maio de 2026</div>
+      <span class="tl-tag major">Major</span>
+      <h2>Nova base BLFS + Interface gráfica do QUEL</h2>
+      <ul class="change-list">
+        <li>Interface gráfica do QUEL adicionada: <strong style="color:white">quel-gtk</strong>, permitindo gerenciar pacotes visualmente sem o terminal.</li>
+        <li>Base da distribuição migrada de Nutyx para <strong style="color:white">BLFS</strong> (Beyond Linux From Scratch), trazendo maior controle e estabilidade ao sistema.</li>
+      </ul>
+    </div>
+
+    <div class="tl-entry minor">
+      <div class="tl-date">01 de maio de 2024</div>
+      <span class="tl-tag minor">Atualização</span>
+      <h2>Kernel e pacotes essenciais</h2>
+      <ul class="change-list">
+        <li>Atualização do Kernel do sistema.</li>
+        <li>Atualização de pacotes essenciais da distribuição.</li>
+      </ul>
+    </div>
+
+    <div class="tl-entry origin">
+      <div class="tl-date">28 de fevereiro de 2023</div>
+      <span class="tl-tag origin">Origem</span>
+      <h2>Criação do QUEL e do Quieux Linux</h2>
+      <ul class="change-list">
+        <li>Criação do gerenciador de pacotes <strong style="color:white">QUEL</strong>, baseado em pacotes pré-compilados e compactados com SquashFS.</li>
+        <li>Lançamento da primeira ISO do <strong style="color:white">Quieux Linux</strong>, baseada no Nutyx.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  © 2023 Quieux Linux — Desenvolvido por
+  <a href="https://br.linkedin.com/in/ezequielcarvalho">Ezequiel Carvalho</a>
+</footer>
+
+<script>
+  function toggleSubMenu() {
+    document.getElementById("sub-menu").classList.toggle("visible");
+  }
+</script>
+
+</body>
+</html>
