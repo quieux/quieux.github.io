@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repositório — Quieux Linux</title>
+  <style>
+    @font-face {
+      font-family: 'Dogica';
+      src: url('dogica.ttf') format('truetype');
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0b0b0b;
+      --card: #111111;
+      --border: #1f1f1f;
+      --text: #e5e5e5;
+      --muted: #9b9b9b;
+      --green: #72ff72;
+      --purple: #9d4edd;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      line-height: 1.7;
+    }
+    a { color: var(--green); text-decoration: none; transition: 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    /* HEADER */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar {
+      max-width: 1150px;
+      margin: auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand img { width: 48px; height: 48px; }
+    .brand h1 { font-size: 22px; color: white; font-weight: 700; letter-spacing: 1px; }
+    nav ul { list-style: none; display: flex; gap: 24px; align-items: center; }
+    nav a { color: #d6d6d6; font-size: 15px; }
+    .language-menu { position: relative; }
+    .sub-menu {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #121212;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      min-width: 150px;
+      padding: 10px 0;
+    }
+    .sub-menu a { display: block; padding: 10px 14px; }
+    .sub-menu a:hover { background: #1b1b1b; }
+    .sub-menu.visible { display: block; }
+
+    /* PAGE */
+    .container {
+      max-width: 1150px;
+      margin: auto;
+      padding: 60px 20px 100px;
+    }
+
+    /* HERO */
+    .page-hero {
+      margin-bottom: 48px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(114,255,114,0.1);
+      color: var(--green);
+      border: 1px solid rgba(114,255,114,0.25);
+      border-radius: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .page-hero h1 {
+      font-size: 40px;
+      color: white;
+      margin-bottom: 12px;
+    }
+    .page-hero p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 560px;
+    }
+
+    /* TOOLBAR */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      max-width: 340px;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+    .search-input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px 10px 38px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: rgba(114,255,114,0.35); }
+    .search-input::placeholder { color: #555; }
+
+    .pkg-count {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .pkg-count strong { color: var(--green); }
+
+    /* GRID */
+    .pkg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    /* PACKAGE CARD */
+    .pkg-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .pkg-card:hover {
+      border-color: rgba(114,255,114,0.25);
+      transform: translateY(-2px);
+    }
+    .pkg-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(114,255,114,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .pkg-card:hover::before { opacity: 1; }
+
+    .pkg-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .pkg-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(114,255,114,0.08);
+      border: 1px solid rgba(114,255,114,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .pkg-meta { flex: 1; min-width: 0; }
+    .pkg-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 2px;
+    }
+    .pkg-desc {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pkg-version {
+      font-size: 11px;
+      background: rgba(114,255,114,0.08);
+      border: 1px solid rgba(114,255,114,0.15);
+      color: var(--green);
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* DEP BADGE */
+    .dep-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      background: rgba(157,78,221,0.08);
+      border: 1px solid rgba(157,78,221,0.2);
+      color: #c084fc;
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+
+    /* CODE BLOCK */
+    .pkg-cmd {
+      background: #0d0d0d;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .pkg-cmd code {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: var(--green);
+    }
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .copy-btn:hover { color: var(--green); }
+    .copy-btn.copied { color: var(--green); }
+
+    /* CARD FOOTER */
+    .pkg-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .pkg-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: #171717;
+      border: 1px solid #252525;
+      color: #888;
+    }
+
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green);
+      color: black;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .dl-btn:hover { opacity: 0.85; }
+
+    /* EMPTY STATE */
+    .empty {
+      display: none;
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty svg { margin-bottom: 14px; opacity: 0.3; }
+    .empty p { font-size: 15px; }
+
+    /* INFO BOX */
+    .info-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-top: 40px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+    .info-box-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .info-box h3 { font-size: 15px; color: white; margin-bottom: 6px; }
+    .info-box p { font-size: 14px; color: var(--muted); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 20px;
+      text-align: center;
+      color: #8d8d8d;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .navbar { flex-direction: column; gap: 20px; }
+      nav ul { gap: 14px; flex-wrap: wrap; justify-content: center; }
+      .page-hero h1 { font-size: 30px; }
+      .toolbar { flex-direction: column; align-items: flex-start; }
+      .search-wrap { max-width: 100%; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="brand">
+      <img src="logo.png" alt="Logo">
+      <h1>Quieux Linux</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="repo.html">Repositório</a></li>
+        <li><a href="doc/">Documentação</a></li>
+        <li><a href="changelog.html">ChangeLog</a></li>
+        <li class="language-menu">
+          <a href="javascript:void(0);" onclick="toggleSubMenu()">Idioma</a>
+          <div id="sub-menu" class="sub-menu">
+            <a href="/doc/es/">Español</a>
+            <a href="/doc/en/">English</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page-hero">
+    <span class="badge">Repositório Oficial</span>
+    <h1>Pacotes disponíveis</h1>
+    <p>Instale programas diretamente pelo QUEL com um único comando. A lista cresce a cada atualização.</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input class="search-input" id="search" type="text" placeholder="Buscar pacote..." oninput="filterPkgs()">
+    </div>
+    <p class="pkg-count">Exibindo <strong id="visible-count">8</strong> de <strong>8</strong> pacotes</p>
+  </div>
+
+  <div class="pkg-grid" id="pkg-grid">
+
+    <!-- VS CODE -->
+    <div class="pkg-card" data-name="code visual studio code editor">
+      <div class="pkg-top">
+        <div class="pkg-icon">📝</div>
+        <div class="pkg-meta">
+          <div class="pkg-name">Visual Studio Code</div>
+          <div class="pkg-desc">Editor Visual Studio Code</div>
+        </div>
+        <span class="pkg-version">v40</span>
+      </div>
+      <div class="pkg-cmd">
+        <code>quel -d code</code>
+        <button class="copy-btn" onclick="copyCmd(this, 'quel -d code')" title="Copiar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-tags"><span class="tag">editor</span><span class="tag">desenvolvimento</span></div>
+        <a class="dl-btn" href="https://septiumdigital.com/repo/code.quel" download>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .quel
+        </a>
+      </div>
+    </div>
+
+    <!-- CHROME -->
+    <div class="pkg-card" data-name="chrome google navegador browser">
+      <div class="pkg-top">
+        <div class="pkg-icon">🌐</div>
+        <div class="pkg-meta">
+          <div class="pkg-name">Google Chrome</div>
+          <div class="pkg-desc">Navegador Google Chrome</div>
+        </div>
+        <span class="pkg-version">v71</span>
+      </div>
+      <div class="pkg-cmd">
+        <code>quel -d chrome</code>
+        <button class="copy-btn" onclick="copyCmd(this, 'quel -d chrome')" title="Copiar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-tags"><span class="tag">navegador</span><span class="tag">internet</span></div>
+        <a class="dl-btn" href="https://septiumdigital.com/repo/chrome.quel" download>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .quel
+        </a>
+      </div>
+    </div>
+
+    <!-- HTOP -->
+    <div class="pkg-card" data-name="htop monitor sistema processos">
+      <div class="pkg-top">
+        <div class="pkg-icon">📊</div>
+        <div class="pkg-meta">
+          <div class="pkg-name">htop</div>
+          <div class="pkg-desc">Monitor do sistema</div>
+        </div>
+        <span class="pkg-version">v1</span>
+      </div>
+      <div class="pkg-cmd">
+        <code>quel -d htop</code>
+        <button class="copy-btn" onclick="copyCmd(this, 'quel -d htop')" title="Copiar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-tags"><span class="tag">sistema</span><span class="tag">terminal</span></div>
+        <a class="dl-btn" href="https://septiumdigital.com/repo/htop.quel" download>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .quel
+        </a>
+      </div>
+    </div>
+
+    <!-- OBS -->
+    <div class="pkg-card" data-name="obs gravador telas streaming transmissao">
+      <div class="pkg-top">
+        <div class="pkg-icon">🎥</div>
+        <div class="pkg-meta">
+          <div class="pkg-name">OBS Studio</div>
+          <div class="pkg-desc">Gravador de telas completo</div>
+        </div>
+        <span class="pkg-version">v23</span>
+      </div>
+      <div class="pkg-cmd">
+        <code>quel -d obs</code>
+        <button class="copy-btn" onclick="copyCmd(this, 'quel -d obs')" title="Copiar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-tags">
+          <span class="tag">streaming</span><span class="tag">gravação</span>
+          <span class="dep-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            dep: qt5
+          </span>
+        </div>
+        <a class="dl-btn" href="https://septiumdigital.com/repo/obs.quel" download>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .quel
+        </a>
+      </div>
+    </div>
+
+    <!-- TRANSMISSION -->
+    <div class="pkg-card" data-name="transmission torrent download gerenciador">
+      <div class="pkg-top">
+        <div class="pkg-icon">⬇️</div>
+        <div class="pkg-meta">
+          <div class="pkg-name">Transmission</div>
+          <div class="pkg-desc">Gerenciador de Torrents</div>
+        </div>
+        <span class="pkg-version">v2.94</span>
+      </div>
+      <div class="pkg-cmd">
+        <code>quel -d transmission</code>
+        <button class="copy-btn" onclick="copyCmd(this, 'quel -d transmission')" title="Copiar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-tags"><span class="tag">torrent</span><span class="tag">download</span></div>
+        <a class="dl-btn" href="https://septiumdigital.com/repo/transmission.quel" download>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .quel
+        </a>
+      </div>
+    </div>
+
+    <!-- QT5 -->
+    <div class="pkg-card" data-name="qt5 biblioteca biblioteca framework">
+      <div class="pkg-top">
+        <div class="pkg-icon">🔧</div>
+        <div class="pkg-meta">
+          <div class="pkg-name">Qt5</div>
+          <div class="pkg-desc">Biblioteca Qt5</div>
+        </div>
+        <span class="pkg-version">v5</span>
+      </div>
+      <div class="pkg-cmd">
+        <code>quel -d qt5</code>
+        <button class="copy-btn" onclick="copyCmd(this, 'quel -d qt5')" title="Copiar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-tags"><span class="tag">biblioteca</span><span class="tag">framework</span></div>
+        <a class="dl-btn" href="https://septiumdigital.com/repo/qt5.quel" download>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .quel
+        </a>
+      </div>
+    </div>
+
+    <!-- VLC -->
+    <div class="pkg-card" data-name="vlc reprodutor midia video audio player">
+      <div class="pkg-top">
+        <div class="pkg-icon">🎬</div>
+        <div class="pkg-meta">
+          <div class="pkg-name">VLC</div>
+          <div class="pkg-desc">Reprodutor de mídias</div>
+        </div>
+        <span class="pkg-version">v3</span>
+      </div>
+      <div class="pkg-cmd">
+        <code>quel -d vlc</code>
+        <button class="copy-btn" onclick="copyCmd(this, 'quel -d vlc')" title="Copiar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-tags">
+          <span class="tag">mídia</span><span class="tag">vídeo</span>
+          <span class="dep-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            dep: qt5
+          </span>
+        </div>
+        <a class="dl-btn" href="https://septiumdigital.com/repo/vlc.quel" download>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .quel
+        </a>
+      </div>
+    </div>
+
+    <!-- SNES -->
+    <div class="pkg-card" data-name="snes emulador super nintendo retro jogos games">
+      <div class="pkg-top">
+        <div class="pkg-icon">🎮</div>
+        <div class="pkg-meta">
+          <div class="pkg-name">SNES Emulator</div>
+          <div class="pkg-desc">Emulador de Super Nintendo</div>
+        </div>
+        <span class="pkg-version">v3</span>
+      </div>
+      <div class="pkg-cmd">
+        <code>quel -d snes</code>
+        <button class="copy-btn" onclick="copyCmd(this, 'quel -d snes')" title="Copiar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-tags"><span class="tag">emulador</span><span class="tag">jogos</span></div>
+        <a class="dl-btn" href="https://septiumdigital.com/repo/snes.quel" download>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .quel
+        </a>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty" id="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <p>Nenhum pacote encontrado para "<span id="empty-query"></span>".</p>
+    </div>
+
+  </div>
+
+  <!-- INFO BOX -->
+  <div class="info-box">
+    <div class="info-box-icon">📦</div>
+    <div>
+      <h3>O repositório está crescendo</h3>
+      <p>Mais pacotes serão adicionados em breve. Quer contribuir compilando programas ou testando a distribuição? Entre em contato pelo <a href="https://quieux.forumeiros.com/">fórum</a> ou por e-mail: <a href="mailto:queldevelopment@gmail.com">queldevelopment@gmail.com</a></p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2023 Quieux Linux — Desenvolvido por
+  <a href="https://br.linkedin.com/in/ezequielcarvalho">Ezequiel Carvalho</a>
+</footer>
+
+<script>
+  function toggleSubMenu() {
+    document.getElementById("sub-menu").classList.toggle("visible");
+  }
+
+  function filterPkgs() {
+    const q = document.getElementById("search").value.toLowerCase().trim();
+    const cards = document.querySelectorAll(".pkg-card");
+    let visible = 0;
+    cards.forEach(card => {
+      const keywords = card.dataset.name || "";
+      const match = !q || keywords.includes(q);
+      card.style.display = match ? "" : "none";
+      if (match) visible++;
+    });
+    document.getElementById("visible-count").textContent = visible;
+    const empty = document.getElementById("empty-state");
+    if (visible === 0) {
+      empty.style.display = "block";
+      document.getElementById("empty-query").textContent = q;
+    } else {
+      empty.style.display = "none";
+    }
+  }
+
+  function copyCmd(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add("copied");
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+      setTimeout(() => {
+        btn.classList.remove("copied");
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      }, 1800);
+    });
+  }
+</script>
+
+</body>
+</html>
