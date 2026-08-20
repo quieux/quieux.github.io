@@ -4,432 +4,95 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quieux Linux</title>
-
-  <style>
-    @font-face {
-      font-family: 'Dogica';
-      src: url('dogica.ttf') format('truetype');
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --bg: #0b0b0b;
-      --card: #111111;
-      --border: #1f1f1f;
-      --text: #e5e5e5;
-      --muted: #9b9b9b;
-      --green: #72ff72;
-      --purple: #9d4edd;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, sans-serif;
-      line-height: 1.6;
-    }
-
-    a {
-      color: var(--green);
-      text-decoration: none;
-      transition: 0.2s;
-    }
-
-    a:hover {
-      opacity: 0.8;
-    }
-
-    header {
-      border-bottom: 1px solid var(--border);
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(8px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .navbar {
-      max-width: 1150px;
-      margin: auto;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand img {
-      width: 48px;
-      height: 48px;
-    }
-
-    .brand h1 {
-      font-size: 22px;
-      color: white;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-
-    nav a {
-      color: #d6d6d6;
-      font-size: 15px;
-    }
-
-    .hero {
-      max-width: 1150px;
-      margin: auto;
-      padding: 80px 20px 60px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
-      align-items: center;
-    }
-
-    .hero-text h2 {
-      font-size: 52px;
-      line-height: 1.1;
-      margin-bottom: 24px;
-    }
-
-    .hero-text p {
-      color: var(--muted);
-      margin-bottom: 30px;
-      font-size: 17px;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 14px 22px;
-      border-radius: 10px;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: white;
-    }
-
-    .btn-primary {
-      background: var(--green);
-      color: black;
-      border: none;
-    }
-
-    .hero-image img {
-      width: 100%;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      box-shadow: 0 0 40px rgba(0,0,0,0.5);
-    }
-
-    .container {
-      max-width: 1150px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    section {
-      margin-bottom: 70px;
-    }
-
-    .section-title {
-      font-size: 28px;
-      margin-bottom: 22px;
-      color: white;
-    }
-
-    .about {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 30px;
-      border-radius: 18px;
-    }
-
-    .about p {
-      color: #c9c9c9;
-    }
-
-    .specs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-
-    .spec-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 24px;
-      border-radius: 16px;
-    }
-
-    .spec-card h3 {
-      color: white;
-      margin-bottom: 8px;
-      font-size: 18px;
-    }
-
-    .spec-card p {
-      color: var(--muted);
-    }
-
-    .download-box {
-      background: linear-gradient(135deg, #141414, #0f0f0f);
-      border: 1px solid var(--border);
-      padding: 40px;
-      border-radius: 20px;
-      text-align: center;
-    }
-
-    .download-box h2 {
-      font-size: 32px;
-      margin-bottom: 14px;
-    }
-
-    .download-box p {
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      margin-top: 60px;
-      padding: 30px 20px;
-      text-align: center;
-      color: #8d8d8d;
-      font-size: 14px;
-    }
-
-    .language-menu {
-      position: relative;
-    }
-
-    .sub-menu {
-      display: none;
-      position: absolute;
-      top: 30px;
-      right: 0;
-      background: #121212;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      min-width: 150px;
-      padding: 10px 0;
-    }
-
-    .sub-menu a {
-      display: block;
-      padding: 10px 14px;
-    }
-
-    .sub-menu a:hover {
-      background: #1b1b1b;
-    }
-
-    .sub-menu.visible {
-      display: block;
-    }
-
-    @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-text h2 {
-        font-size: 38px;
-      }
-
-      nav ul {
-        gap: 14px;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .navbar {
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      .hero {
-        padding-top: 50px;
-      }
-
-      .hero-text h2 {
-        font-size: 30px;
-      }
-    }
-  </style>
-
-  <script>
-    function toggleSubMenu() {
-      document.getElementById("sub-menu").classList.toggle("visible");
-    }
-  </script>
+  <link rel="stylesheet" href="assets/style.css">
 </head>
-
 <body>
 
-  <header>
-    <div class="navbar">
-
-      <div class="brand">
-        <img src="logo.png" alt="Logo">
-        <h1>Quieux Linux</h1>
-      </div>
-
-      <nav>
-        <ul>
-          <li><a href="sobre.html">Sobre</a></li>
-          <li><a href="repo.html">Repositório</a></li>
-          <li><a href="doc/index.html">Documentação</a></li>
-          <li><a href="changelog.html">ChangeLog</a></li>
-
-          <li class="language-menu">
-            <a href="javascript:void(0);" onclick="toggleSubMenu()">Idioma</a>
-
-            <div id="sub-menu" class="sub-menu">
-              <a href="/doc/es/">Español</a>
-              <a href="/doc/en/">English</a>
-            </div>
-          </li>
-        </ul>
-      </nav>
-
+<header>
+  <div class="navbar">
+    <div class="brand">
+      <img src="logo.png" alt="Logo">
+      <h1>Quieux Linux</h1>
     </div>
-  </header>
+    <nav>
+      <ul>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="repo.html">Repositório</a></li>
+        <li><a href="doc/index.html">Documentação</a></li>
+        <li><a href="changelog.html">ChangeLog</a></li>
+        <li class="language-menu">
+          <a href="javascript:void(0);" onclick="toggleSubMenu()">Idioma</a>
+          <div id="sub-menu" class="sub-menu">
+            <a href="/doc/es/">Español</a>
+            <a href="/doc/en/">English</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-  <section class="hero">
-
-    <div class="hero-text">
-      <h2>Minimalista, rápido e estável</h2>
-
-      <p>
-        Uma distribuição Linux brasileira construída ao redor do gerenciador de pacotes QUEL,
-        focada em estabilidade, leveza e imutabilidade.
-      </p>
-
-      <div class="buttons">
-        <a class="btn btn-primary" href="https://archive.org/download/quieux-linux/quieux-linux.iso">
-          Baixar ISO
-        </a>
-
-        <a class="btn" href="doc/index.html">
-          Documentação
-        </a>
-      </div>
+<section class="hero">
+  <div class="hero-text">
+    <span class="eyebrow">01 / quieux linux</span>
+    <h2>Minimalista, rápido e estável</h2>
+    <p>Uma distribuição Linux brasileira construída ao redor do gerenciador de pacotes QUEL, focada em estabilidade, leveza e imutabilidade.</p>
+    <div class="buttons">
+      <a class="btn btn-primary" href="https://archive.org/download/quieux-linux/quieux-linux.iso">Baixar ISO</a>
+      <a class="btn" href="doc/index.html">Documentação</a>
     </div>
+  </div>
+  <div class="hero-image">
+    <img src="screenshot.png" alt="Screenshot do Quieux Linux">
+  </div>
+</section>
 
-    <div class="hero-image">
-      <img src="screenshot.png" alt="Screenshot do Quieux Linux">
+<main class="container">
+
+  <section>
+    <span class="eyebrow">02 / sobre o projeto</span>
+    <h2 class="section-title">Sobre</h2>
+    <div class="about">
+      <p>Quieux Linux é uma distribuição brasileira baseada na ideia de simplificar o gerenciamento de software através do QUEL, um gerenciador de pacotes criado para organizar programas pré-compilados de maneira prática e funcional. O sistema é leve, extremamente estável e parcialmente imutável.</p>
     </div>
-
   </section>
 
-  <main class="container">
+  <section>
+    <span class="eyebrow">03 / especificações</span>
+    <h2 class="section-title">Requisitos e especificações</h2>
+    <div class="specs-grid">
+      <div class="spec-card"><h3>Desktop</h3><p>XFCE4</p></div>
+      <div class="spec-card"><h3>Independente</h3><p>Base BLFS</p></div>
+      <div class="spec-card"><h3>Memória</h3><p>1 GB RAM</p></div>
+      <div class="spec-card"><h3>Armazenamento</h3><p>20 GB livres</p></div>
+      <div class="spec-card"><h3>Rede</h3><p>Internet opcional</p></div>
+    </div>
+  </section>
 
-    <section>
-      <h2 class="section-title">Sobre</h2>
+  <section>
+    <span class="eyebrow">04 / download</span>
+    <div class="download-box">
+      <h2>Download</h2>
+      <p>Baixe a versão mais recente do Quieux Linux.</p>
+      <a class="btn btn-primary" href="https://archive.org/download/quieux-linux/quieux-linux.iso">Download ISO</a>
+    </div>
+  </section>
 
-      <div class="about">
-        <p>
-          Quieux Linux é uma distribuição brasileira baseada na ideia de simplificar
-          o gerenciamento de software através do QUEL, um gerenciador de pacotes
-          criado para organizar programas pré-compilados de maneira prática e funcional. O sistema é leve, extremamente estável e parcialmente imutável.
-        </p>
-      </div>
-    </section>
+  <section>
+    <span class="eyebrow">05 / suporte</span>
+    <h2 class="section-title">Suporte</h2>
+    <div class="about">
+      <p>Tenha suporte no <a href="https://quieux.forumeiros.com/">fórum</a> ou entre em contato pelo email: queldevelopment@gmail.com</p>
+    </div>
+  </section>
 
-    <section>
-      <h2 class="section-title">Requisitos e especificações</h2>
+</main>
 
-      <div class="specs-grid">
+<footer>
+  © 2023 Quieux Linux — Desenvolvido por
+  <a href="https://br.linkedin.com/in/ezequielcarvalho">Ezequiel Carvalho</a>
+</footer>
 
-        <div class="spec-card">
-          <h3>Desktop</h3>
-          <p>XFCE4</p>
-        </div>
-
-        <div class="spec-card">
-          <h3>Independente</h3>
-          <p>Base BLFS</p>
-        </div>
-
-        <div class="spec-card">
-          <h3>Memória</h3>
-          <p>1 GB RAM</p>
-        </div>
-
-        <div class="spec-card">
-          <h3>Armazenamento</h3>
-          <p>20 GB livres</p>
-        </div>
-
-        <div class="spec-card">
-          <h3>Rede</h3>
-          <p>Internet opcional</p>
-        </div>
-
-      </div>
-    </section>
-
-    <section>
-      <div class="download-box">
-
-        <h2>Download</h2>
-
-        <p>
-          Baixe a versão mais recente do Quieux Linux.
-        </p>
-
-        <a class="btn btn-primary"
-           href="https://archive.org/download/quieux-linux/quieux-linux.iso">
-          Download ISO
-        </a>
-
-      </div>
-    </section>
-
-    <section>
-      <h2 class="section-title">Suporte</h2>
-
-      <div class="about">
-        <p>
-          Tenha suporte no
-          <a href="https://quieux.forumeiros.com/">fórum</a>
-          ou entre em contato pelo email:
-          queldevelopment@gmail.com
-        </p>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    © 2023 Quieux Linux — Desenvolvido por
-    <a href="https://br.linkedin.com/in/ezequielcarvalho">
-      Ezequiel Carvalho
-    </a>
-  </footer>
-
+<script src="assets/script.js"></script>
 </body>
 </html>
