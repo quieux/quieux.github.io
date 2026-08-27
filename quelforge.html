@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quelforge — Quieux Linux</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="brand">
+      <img src="logo.png" alt="Logo">
+      <h1>Quieux Linux</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="repo.html">Repositório</a></li>
+        <li><a href="quelforge.html">Quelforge</a></li>
+        <li><a href="doc/index.html">Documentação</a></li>
+        <li><a href="changelog.html">ChangeLog</a></li>
+        <li class="language-menu">
+          <a href="javascript:void(0);" onclick="toggleSubMenu()">Idioma</a>
+          <div id="sub-menu" class="sub-menu">
+            <a href="/doc/es/">Español</a>
+            <a href="/doc/en/">English</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <span class="eyebrow">01 / quelforge</span>
+    <h2>Backup e empacotamento com um clique</h2>
+    <p>O Quelforge é a ferramenta oficial de backup e criação de pacotes do Quieux Linux, instalável via QUEL. Ele verifica o estado do sistema, salva snapshots incrementais e monta seus próprios pacotes <code>.quel</code>, tudo pela interface gráfica.</p>
+    <div class="buttons">
+      <a class="btn btn-primary" href="#instalacao">Como instalar</a>
+      <a class="btn" href="doc/index.html#interface-grafica">Documentação</a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <img src="quelforge-screenshot.png" alt="Screenshot do Quelforge">
+  </div>
+</section>
+
+<main class="container">
+
+  <section>
+    <span class="eyebrow">02 / sobre a ferramenta</span>
+    <h2 class="section-title">Sobre o Quelforge</h2>
+    <div class="about">
+      <p>O Quelforge usa a mesma base do QUEL, squashfs e <code>yad</code>, para gerar snapshots do sistema com hash de cada arquivo. Isso permite saber exatamente o que mudou desde a última verificação. A partir disso, dá pra salvar backups incrementais ou empacotar só os arquivos alterados como um novo programa <code>.quel</code>, pronto para instalar em outra máquina.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 / funções</span>
+    <h2 class="section-title">O que o Quelforge faz</h2>
+    <div class="specs-grid">
+      <div class="spec-card"><h3>Verificar Sistema</h3><p>Cria uma base com hash de todos os arquivos do sistema</p></div>
+      <div class="spec-card"><h3>Salvar Sistema</h3><p>Empacota só o que mudou desde a última verificação</p></div>
+      <div class="spec-card"><h3>Restaurar Sistema</h3><p>Restaura um backup <code>.quel</code>, sobrescrevendo o necessário</p></div>
+      <div class="spec-card"><h3>Criar Pacote</h3><p>Monta um pacote <code>.quel</code> com nome, versão e descrição</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 / como funciona</span>
+    <h2 class="section-title">Como funciona</h2>
+    <div class="step">
+      <div class="step-header"><span class="step-num">1</span><span class="step-title">Verificar Sistema</span></div>
+      <p>Varre as pastas do sistema, calcula o hash SHA-256 de cada arquivo e grava essa lista como base em <code style="color:var(--green)">/quel/quelforge/system.txt</code>. É o ponto de partida: sem essa base, nenhuma outra função funciona.</p>
+    </div>
+    <div class="step">
+      <div class="step-header"><span class="step-num">2</span><span class="step-title">Salvar Sistema</span></div>
+      <p>Refaz a varredura e compara com a base salva, isolando só os arquivos novos ou com hash diferente (arquivos de cache/temporários são ignorados). Esses arquivos são compactados em squashfs mantendo pastas e permissões originais, e salvos em <code style="color:var(--green)">/quel/quelforge/saves/</code> com data e hora do backup.</p>
+    </div>
+    <div class="step">
+      <div class="step-header"><span class="step-num">3</span><span class="step-title">Restaurar Sistema</span></div>
+      <p>Você escolhe um arquivo <code style="color:var(--green)">.quel</code> gerado pelo Quelforge e ele é extraído direto na raiz do sistema, sobrescrevendo o que for necessário para voltar ao estado daquele backup.</p>
+    </div>
+    <div class="step">
+      <div class="step-header"><span class="step-num">4</span><span class="step-title">Criar Pacote</span></div>
+      <p>Usa a mesma comparação do Salvar Sistema, mas organiza o resultado como um pacote QUEL de verdade. Você informa nome, versão e descrição do programa, e o Quelforge monta as pastas <code style="color:var(--green)">info/</code> e <code style="color:var(--green)">quel/</code> exigidas pelo instalador, salvando o <code style="color:var(--green)">.quel</code> em <code style="color:var(--green)">/quel/quelforge/pacotes/</code>, pronto para distribuir com <code style="color:var(--green)">quel -i</code>.</p>
+    </div>
+    <div class="callout tip">
+      <span>💡</span>
+      Todas as ações são feitas pela interface gráfica (<code style="color:var(--green)">yad</code>), com barra de progresso e log de cada operação, no mesmo padrão visual do <code style="color:var(--green)">quel-gtk</code>.
+    </div>
+  </section>
+
+  <section id="instalacao">
+    <span class="eyebrow">05 / instalação</span>
+    <div class="download-box">
+      <h2>Instale pelo QUEL</h2>
+      <p>O Quelforge não vem instalado por padrão, é um pacote como outro qualquer do repositório. Abra o terminal como root e execute:</p>
+      <a class="btn btn-primary" href="doc/index.html#comandos"><code>quel -d quelforge</code></a>
+      <p style="margin-top:14px">Depois de instalado, abra a interface com:</p>
+      <a class="btn" href="doc/index.html#interface-grafica"><code>sudo quelforge</code></a>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">06 / suporte</span>
+    <h2 class="section-title">Suporte</h2>
+    <div class="about">
+      <p>Tenha suporte no <a href="https://quieux.forumeiros.com/">fórum</a> ou entre em contato pelo email: queldevelopment@gmail.com</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2023 Quieux Linux — Desenvolvido por
+  <a href="https://br.linkedin.com/in/ezequielcarvalho">Ezequiel Carvalho</a>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
