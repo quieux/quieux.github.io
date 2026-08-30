@@ -50,10 +50,6 @@
       <a class="btn btn-primary" href="doc/index.html#comandos"><code>quel -d nix</code></a>
       <p style="margin-top:14px">Ou, se preferir, instale pela interface gráfica com o <code>quel-gtk</code>, buscando por "nix" na lista de pacotes.</p>
     </div>
-    <div class="callout warn">
-      <span>📌</span>
-      O Nix só funciona corretamente após entrar como root no terminal. Use o comando <code style="color:var(--green)">su</code> e informe a senha antes de executar qualquer comando do Nix.
-    </div>
   </section>
 
   <section>
@@ -61,8 +57,8 @@
     <h2 class="section-title">Testando a instalação</h2>
     <div class="step">
       <div class="step-header"><span class="step-num">1</span><span class="step-title">Instalar um pacote de teste</span></div>
-      <p>Como root, execute o comando abaixo para instalar um pacote simples de teste:</p>
-      <div class="pkg-cmd"><code>nix --extra-experimental-features 'nix-command flakes' profile add nixpkgs#hello</code></div>
+      <p>Execute o comando abaixo para instalar o pacote <code>hello</code> como teste:</p>
+      <div class="pkg-cmd"><code>nix-portable nix run nixpkgs#hello</code></div>
     </div>
     <div class="step">
       <div class="step-header"><span class="step-num">2</span><span class="step-title">Executar o pacote</span></div>
@@ -73,24 +69,7 @@
   </section>
 
   <section>
-    <span class="eyebrow">04 / configuração</span>
-    <h2 class="section-title">Removendo a necessidade das flags</h2>
-    <p>Reparou que o comando de teste precisa da flag <code>--extra-experimental-features 'nix-command flakes'</code>? Isso acontece porque os recursos <code>nix-command</code> e <code>flakes</code> ainda são experimentais e vêm desativados por padrão. Para não precisar digitar essa flag toda vez, ative os dois recursos permanentemente:</p>
-    <div class="step">
-      <div class="step-header"><span class="step-num">1</span><span class="step-title">Criar o arquivo de configuração</span></div>
-      <p>Como root, crie a pasta de configuração do Nix caso ela ainda não exista e edite o arquivo <code style="color:var(--green)">/etc/nix/nix.conf</code>:</p>
-      <div class="pkg-cmd"><code>mkdir -p /etc/nix && nano /etc/nix/nix.conf</code></div>
-    </div>
-    <div class="step">
-      <div class="step-header"><span class="step-num">2</span><span class="step-title">Ativar os recursos</span></div>
-      <p>Adicione a linha abaixo no arquivo, salve e feche:</p>
-      <div class="pkg-cmd"><code>experimental-features = nix-command flakes</code></div>
-      <p>A partir daí, os comandos do Nix funcionam sem precisar da flag, por exemplo: <code style="color:var(--green)">nix profile add nixpkgs#hello</code>.</p>
-    </div>
-  </section>
-
-  <section>
-    <span class="eyebrow">05 / biblioteca de programas</span>
+    <span class="eyebrow">04 / biblioteca de programas</span>
     <h2 class="section-title">Explorando os pacotes disponíveis</h2>
     <div class="about">
       <p>O Nix tem uma biblioteca enorme de programas disponíveis. Para ver tudo o que pode ser instalado, visite o buscador oficial de pacotes:</p>
@@ -101,7 +80,7 @@
   </section>
 
   <section>
-    <span class="eyebrow">06 / suporte</span>
+    <span class="eyebrow">05 / suporte</span>
     <h2 class="section-title">Suporte</h2>
     <div class="about">
       <p>Tenha suporte no <a href="https://quieux.forumeiros.com/">fórum</a> ou entre em contato pelo email: queldevelopment@gmail.com</p>
