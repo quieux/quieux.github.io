@@ -53,12 +53,33 @@
   </section>
 
   <section>
-    <span class="eyebrow">03 / teste</span>
+    <span class="eyebrow">03 / liberar permissões</span>
+    <h2 class="section-title">Deixando o Nix pronto para uso</h2>
+    <p>Depois de instalado, é preciso liberar a permissão do Nix uma única vez. É rápido, siga os passos abaixo:</p>
+    <div class="step">
+      <div class="step-header"><span class="step-num">1</span><span class="step-title">Entrar como root</span></div>
+      <p>No terminal, entre como root e informe a senha quando pedido:</p>
+      <div class="pkg-cmd"><code>su</code></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><span class="step-num">2</span><span class="step-title">Liberar a permissão</span></div>
+      <p>Ainda como root, execute:</p>
+      <div class="pkg-cmd"><code>chmod 775 nix</code></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><span class="step-num">3</span><span class="step-title">Sair do root</span></div>
+      <p>Digite <code>exit</code> para voltar ao seu usuário normal. Pronto, esse passo só precisa ser feito uma vez.</p>
+      <div class="pkg-cmd"><code>exit</code></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 / teste</span>
     <h2 class="section-title">Testando a instalação</h2>
     <div class="step">
       <div class="step-header"><span class="step-num">1</span><span class="step-title">Instalar um pacote de teste</span></div>
-      <p>Execute o comando abaixo para instalar o pacote <code>hello</code> como teste:</p>
-      <div class="pkg-cmd"><code>nix-portable nix run nixpkgs#hello</code></div>
+      <p>Com a permissão liberada, execute o comando abaixo para instalar o pacote <code>hello</code> como teste:</p>
+      <div class="pkg-cmd"><code>nix run nixpkgs#hello</code></div>
     </div>
     <div class="step">
       <div class="step-header"><span class="step-num">2</span><span class="step-title">Executar o pacote</span></div>
@@ -69,7 +90,7 @@
   </section>
 
   <section>
-    <span class="eyebrow">04 / biblioteca de programas</span>
+    <span class="eyebrow">05 / biblioteca de programas</span>
     <h2 class="section-title">Explorando os pacotes disponíveis</h2>
     <div class="about">
       <p>O Nix tem uma biblioteca enorme de programas disponíveis. Para ver tudo o que pode ser instalado, visite o buscador oficial de pacotes:</p>
@@ -80,7 +101,7 @@
   </section>
 
   <section>
-    <span class="eyebrow">05 / suporte</span>
+    <span class="eyebrow">06 / suporte</span>
     <h2 class="section-title">Suporte</h2>
     <div class="about">
       <p>Tenha suporte no <a href="https://quieux.forumeiros.com/">fórum</a> ou entre em contato pelo email: queldevelopment@gmail.com</p>
