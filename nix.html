@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nix, Quieux Linux</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="brand">
+      <img src="logo.png" alt="Logo">
+      <h1>Quieux Linux</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="repo.html">Repositório</a></li>
+        <li><a href="quelforge.html">Quelforge</a></li>
+        <li><a href="doc/index.html">Documentação</a></li>
+        <li><a href="changelog.html">ChangeLog</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <span class="eyebrow">01 / nix</span>
+    <h2>Milhares de programas sem complicações</h2>
+    <p>O Nix é um gerenciador de pacotes com um repositório enorme de programas prontos para instalar. Quando você não encontrar o que precisa no repositório oficial do Quieux, o Nix é a alternativa mais simples para resolver isso.</p>
+    <div class="buttons">
+      <a class="btn btn-primary" href="#instalacao">Como instalar</a>
+      <a class="btn" href="repo.html">Voltar ao repositório</a>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+
+  <section id="instalacao">
+    <span class="eyebrow">02 / instalação</span>
+    <h2 class="section-title">Instalando o Nix</h2>
+    <div class="download-box">
+      <h2>Instale pelo QUEL</h2>
+      <p>Abra o terminal como root e execute:</p>
+      <a class="btn btn-primary" href="doc/index.html#comandos"><code>quel -d nix</code></a>
+      <p style="margin-top:14px">Ou, se preferir, instale pela interface gráfica com o <code>quel-gtk</code>, buscando por "nix" na lista de pacotes.</p>
+    </div>
+    <div class="callout warn">
+      <span>📌</span>
+      O Nix só funciona corretamente após entrar como root no terminal. Use o comando <code style="color:var(--green)">su</code> e informe a senha antes de executar qualquer comando do Nix.
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 / teste</span>
+    <h2 class="section-title">Testando a instalação</h2>
+    <div class="step">
+      <div class="step-header"><span class="step-num">1</span><span class="step-title">Instalar um pacote de teste</span></div>
+      <p>Como root, execute o comando abaixo para instalar um pacote simples de teste:</p>
+      <div class="pkg-cmd"><code>nix --extra-experimental-features 'nix-command flakes' profile add nixpkgs#hello</code></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><span class="step-num">2</span><span class="step-title">Executar o pacote</span></div>
+      <p>Depois que a instalação terminar, execute:</p>
+      <div class="pkg-cmd"><code>hello</code></div>
+      <p>Se aparecer uma mensagem de saudação no terminal, o Nix está funcionando corretamente.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 / configuração</span>
+    <h2 class="section-title">Removendo a necessidade das flags</h2>
+    <p>Reparou que o comando de teste precisa da flag <code>--extra-experimental-features 'nix-command flakes'</code>? Isso acontece porque os recursos <code>nix-command</code> e <code>flakes</code> ainda são experimentais e vêm desativados por padrão. Para não precisar digitar essa flag toda vez, ative os dois recursos permanentemente:</p>
+    <div class="step">
+      <div class="step-header"><span class="step-num">1</span><span class="step-title">Criar o arquivo de configuração</span></div>
+      <p>Como root, crie a pasta de configuração do Nix caso ela ainda não exista e edite o arquivo <code style="color:var(--green)">/etc/nix/nix.conf</code>:</p>
+      <div class="pkg-cmd"><code>mkdir -p /etc/nix && nano /etc/nix/nix.conf</code></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><span class="step-num">2</span><span class="step-title">Ativar os recursos</span></div>
+      <p>Adicione a linha abaixo no arquivo, salve e feche:</p>
+      <div class="pkg-cmd"><code>experimental-features = nix-command flakes</code></div>
+      <p>A partir daí, os comandos do Nix funcionam sem precisar da flag, por exemplo: <code style="color:var(--green)">nix profile add nixpkgs#hello</code>.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">05 / biblioteca de programas</span>
+    <h2 class="section-title">Explorando os pacotes disponíveis</h2>
+    <div class="about">
+      <p>O Nix tem uma biblioteca enorme de programas disponíveis. Para ver tudo o que pode ser instalado, visite o buscador oficial de pacotes:</p>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://search.nixos.org/packages">Ver pacotes do Nix</a>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">06 / suporte</span>
+    <h2 class="section-title">Suporte</h2>
+    <div class="about">
+      <p>Tenha suporte no <a href="https://quieux.forumeiros.com/">fórum</a> ou entre em contato pelo email: queldevelopment@gmail.com</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2023 Quieux Linux, desenvolvido por
+  <a href="https://br.linkedin.com/in/ezequielcarvalho">Ezequiel Carvalho</a>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
