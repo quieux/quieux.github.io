@@ -90,7 +90,14 @@
   </section>
 
   <section>
-    <span class="eyebrow">05 / biblioteca de programas</span>
+    <span class="eyebrow">05 / pacotes proprietários</span>
+    <h2 class="section-title">Instalando pacotes proprietários</h2>
+    <p>Por padrão, o Nix bloqueia a instalação de programas com licença proprietária. Para liberar, use a variável <code>NIXPKGS_ALLOW_UNFREE=1</code> junto com a flag <code>--impure</code>. Por exemplo, para instalar o Spotify:</p>
+    <div class="pkg-cmd"><code>NIXPKGS_ALLOW_UNFREE=1 nix run nixpkgs#spotify --impure</code></div>
+  </section>
+
+  <section>
+    <span class="eyebrow">06 / biblioteca de programas</span>
     <h2 class="section-title">Explorando os pacotes disponíveis</h2>
     <div class="about">
       <p>O Nix tem uma biblioteca enorme de programas disponíveis. Para ver tudo o que pode ser instalado, visite o buscador oficial de pacotes:</p>
@@ -101,7 +108,16 @@
   </section>
 
   <section>
-    <span class="eyebrow">06 / suporte</span>
+    <span class="eyebrow">07 / problemas comuns</span>
+    <h2 class="section-title">Problemas comuns</h2>
+    <div class="callout warn">
+      <span>📌</span>
+      Um erro comum é o horário do computador estar incorreto, isso causa falhas ao acessar os repositórios do Nix. Verifique se a data e a hora do sistema estão certas antes de reportar qualquer outro problema.
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">08 / suporte</span>
     <h2 class="section-title">Suporte</h2>
     <div class="about">
       <p>Tenha suporte no <a href="https://quieux.forumeiros.com/">fórum</a> ou entre em contato pelo email: queldevelopment@gmail.com</p>
