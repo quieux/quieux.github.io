@@ -60,8 +60,8 @@
       <div class="spec-card"><h3>Salvar Sistema</h3><p>Empacota só o que mudou desde a última verificação</p></div>
       <div class="spec-card"><h3>Restaurar Sistema</h3><p>Restaura um backup <code>.quel</code>, sobrescrevendo o necessário</p></div>
       <div class="spec-card"><h3>Criar Pacote</h3><p>Monta um pacote <code>.quel</code> com nome, versão e descrição</p></div>
-      <div class="spec-card"><h3>Verificar Nix</h3><p>Cria uma base com hash de todos os arquivos da pasta do Nix</p></div>
-      <div class="spec-card"><h3>Criar Quel com Nix</h3><p>Empacota os arquivos novos do Nix desde a última verificação</p></div>
+      <div class="spec-card"><h3>Criar Quel com Nix</h3><p>Empacota toda a pasta do Nix em um <code>.quel</code></p></div>
+      <div class="spec-card"><h3>Instalar Quel com Nix</h3><p>Restaura a pasta do Nix a partir de um <code>.quel</code></p></div>
     </div>
   </section>
 
@@ -85,16 +85,12 @@
       <p>Usa a mesma comparação do Salvar Sistema, mas organiza o resultado como um pacote QUEL de verdade. Você informa nome, versão e descrição do programa, e o Quelforge monta as pastas <code style="color:var(--green)">info/</code> e <code style="color:var(--green)">quel/</code> exigidas pelo instalador, salvando o <code style="color:var(--green)">.quel</code> em <code style="color:var(--green)">/quel/quelforge/pacotes/</code>, pronto para distribuir com <code style="color:var(--green)">quel -i</code>.</p>
     </div>
     <div class="step">
-      <div class="step-header"><span class="step-num">5</span><span class="step-title">Verificar Nix</span></div>
-      <p>Varre a pasta do Nix (<code style="color:var(--green)">.nix-portable</code>), calcula o hash SHA-256 de cada arquivo e grava essa lista como base. Funciona do mesmo jeito da Verificar Sistema, mas focado só nos arquivos do Nix.</p>
+      <div class="step-header"><span class="step-num">5</span><span class="step-title">Criar Quel com Nix</span></div>
+      <p>Arquiva a pasta inteira <code style="color:var(--green)">.nix-portable</code> do usuário com <code style="color:var(--green)">tar</code>, preservando symlinks, hardlinks e permissões, e coloca tudo dentro de um pacote <code style="color:var(--green)">.quel</code>, pronto para instalar depois.</p>
     </div>
     <div class="step">
-      <div class="step-header"><span class="step-num">6</span><span class="step-title">Criar Quel com Nix</span></div>
-      <p>Deve ser usado depois de uma Verificar Nix. Compara a pasta do Nix com a base salva e compacta só os arquivos que não estavam lá antes em um pacote <code style="color:var(--green)">.quel</code>, pronto para instalar depois com <code style="color:var(--green)">quel -i</code>.</p>
-    </div>
-    <div class="callout tip">
-      <span>💡</span>
-      O ideal é rodar a Verificar Nix logo após instalar o Nix pelo Quel, antes de instalar qualquer programa com ele. Se a pasta <code style="color:var(--green)">.nix-portable</code> ainda não existir nesse momento, pode ser necessário criá-la manualmente antes de verificar.
+      <div class="step-header"><span class="step-num">6</span><span class="step-title">Instalar Quel com Nix</span></div>
+      <p>Apaga e recria a pasta <code style="color:var(--green)">.nix-portable</code> antes de extrair o <code style="color:var(--green)">.quel</code> escolhido, restaurando o Nix exatamente como estava no momento do empacotamento.</p>
     </div>
     <div class="callout warn">
       <span>📌</span>
